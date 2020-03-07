@@ -141,6 +141,8 @@ def session_state():
 def create_test_report(msg, ecs_with_res, init_session_state, pr_nr=None, gist_log=False):
     """Create test report for easyconfigs PR, in Markdown format."""
     user = build_option('github_user')
+    pr_target_account = build_option('pr_target_account')
+    pr_target_repo = build_option('pr_target_repo')
 
     end_time = gmtime()
 
@@ -148,7 +150,7 @@ def create_test_report(msg, ecs_with_res, init_session_state, pr_nr=None, gist_l
     test_report = []
     if pr_nr is not None:
         test_report.extend([
-            "Test report for https://github.com/easybuilders/easybuild-easyconfigs/pull/%s" % pr_nr,
+            "Test report for https://github.com/%s/%s/pull/%s" % (pr_target_account, pr_target_repo, pr_nr),
             "",
         ])
     test_report.extend([
@@ -272,7 +274,11 @@ def post_easyconfigs_pr_test_report(pr_nr, test_report, msg, init_session_state,
         "See %s for a full test report." % gist_url,
     ]
     comment = '\n'.join(comment_lines)
-    post_comment_in_issue(pr_nr, comment, github_user=user)
+
+    pr_target_account = build_option('pr_target_account')
+    pr_target_repo = build_option('pr_target_repo')
+
+    post_comment_in_issue(pr_nr, comment, account=pr_target_account, repo=pr_target_repo, github_user=user)
 
     msg = "Test report uploaded to %s and mentioned in a comment in easyconfigs PR#%s" % (gist_url, pr_nr)
     return msg
