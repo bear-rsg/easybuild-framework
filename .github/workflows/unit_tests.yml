@@ -1,6 +1,6 @@
 # documentation: https://help.github.com/en/articles/workflow-syntax-for-github-actions
 name: EasyBuild framework unit tests
-on: [pull_request]
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-18.04
