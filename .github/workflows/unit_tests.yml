@@ -7,14 +7,8 @@ jobs:
     strategy:
       matrix:
         python: [3.6]
-        modules_tool: [Lmod-8.2.9, modules-3.2.10]
-        module_syntax: [Lua, Tcl]
-        # exclude some configuration for non-Lmod modules tool:
-        # - don't test with Lua module syntax (only supported in Lmod)
-        # - exclude Python 3.x versions other than 3.6, to limit test configurations
-        exclude:
-          - modules_tool: modules-3.2.10
-            module_syntax: Lua
+        modules_tool: [modules-3.2.10]
+        module_syntax: [Tcl]
       fail-fast: false
     steps:
     - uses: actions/checkout@v2
