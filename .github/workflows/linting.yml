@@ -1,5 +1,5 @@
 name: Static Analysis
-on: [push, pull_request]
+on: [push]
 jobs:
   python-linting:
     runs-on: ubuntu-18.04
@@ -19,4 +19,3 @@ jobs:
     - name: Run flake8
       run: |
         flake8 easybuild/tools
- 
