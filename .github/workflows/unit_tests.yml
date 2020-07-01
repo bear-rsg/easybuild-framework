@@ -1,6 +1,6 @@
 # documentation: https://help.github.com/en/articles/workflow-syntax-for-github-actions
 name: EasyBuild framework unit tests
-on: [push, pull_request]
+on: [pull_request]
 jobs:
   build:
     runs-on: ubuntu-18.04
@@ -19,27 +19,9 @@ jobs:
             module_syntax: Lua
           - modules_tool: modules-4.1.4
             module_syntax: Lua
-          - modules_tool: modules-tcl-1.147
-            python: 3.5
-          - modules_tool: modules-tcl-1.147
-            python: 3.7
-          - modules_tool: modules-tcl-1.147
-            python: 3.8
-          - modules_tool: modules-3.2.10
-            python: 3.5
-          - modules_tool: modules-3.2.10
-            python: 3.7
-          - modules_tool: modules-3.2.10
-            python: 3.8
-          - modules_tool: modules-4.1.4
-            python: 3.5
-          - modules_tool: modules-4.1.4
-            python: 3.7
-          - modules_tool: modules-4.1.4
-            python: 3.8
       fail-fast: false
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
     - name: set up Python
       uses: actions/setup-python@v1
@@ -49,6 +31,9 @@ jobs:
 
     - name: install OS & Python packages
       run: |
+        # disable apt-get update, we don't really need it,
+        # and it does more harm than good (it's fairly expensive, and it results in flaky test runs)
+        # sudo apt-get update
         # for modules tool
         sudo apt-get install lua5.2 liblua5.2-dev lua-filesystem lua-posix tcl tcl-dev
         # fix for lua-posix packaging issue, see https://bugs.launchpad.net/ubuntu/+source/lua-posix/+bug/1752082
