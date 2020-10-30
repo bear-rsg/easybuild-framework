@@ -267,6 +267,7 @@ BUILD_OPTIONS_CMDLINE = {
         'cleanup_tmpdir',
         'extended_dry_run_ignore_errors',
         'fixed_installdir_naming_scheme',
+        'lib64_lib_symlink',
         'mpi_tests',
         'map_toolchains',
         'modules_tool_version_check',
