@@ -1889,10 +1889,11 @@ class ToyBuildTest(EnhancedTestCase):
         # sanity check fails if lib64 fallback in sanity check is disabled, since lib64/libtoy.a is not there
         error_pattern = r"Sanity check failed: no file found at 'lib64/libtoy.a' in "
         self.assertErrorRegex(EasyBuildError, error_pattern, self.test_toy_build, ec_file=test_ec,
-                              extra_args=['--disable-lib64-fallback-sanity-check'], raise_error=True, verbose=False)
+                              extra_args=['--disable-lib64-fallback-sanity-check', '--disable-lib64-lib-symlink'],
+                              raise_error=True, verbose=False)
 
         # sanity check passes when lib64 fallback is enabled (by default), since lib/libtoy.a is also considered
-        self.test_toy_build(ec_file=test_ec, raise_error=True)
+        self.test_toy_build(ec_file=test_ec, extra_args=['--disable-lib64-lib-symlink'], raise_error=True)
 
         # also check with 'lib64' in sanity check dirs (special case)
         ectxt = re.sub("\s*'files'.*", "'files': ['bin/toy'],", ectxt)
@@ -1901,7 +1902,8 @@ class ToyBuildTest(EnhancedTestCase):
 
         error_pattern = r"Sanity check failed: no \(non-empty\) directory found at 'lib64' in "
         self.assertErrorRegex(EasyBuildError, error_pattern, self.test_toy_build, ec_file=test_ec,
-                              extra_args=['--disable-lib64-fallback-sanity-check'], raise_error=True, verbose=False)
+                              extra_args=['--disable-lib64-fallback-sanity-check', '--disable-lib64-lib-symlink'],
+                              raise_error=True, verbose=False)
 
         self.test_toy_build(ec_file=test_ec, raise_error=True)
 
@@ -1912,7 +1914,7 @@ class ToyBuildTest(EnhancedTestCase):
         postinstallcmd += "mv %(installdir)s/lib/libtoy.a %(installdir)s/lib64/test/libtoy.a"
         ectxt = re.sub("postinstallcmds.*", "postinstallcmds = ['%s']" % postinstallcmd, ectxt)
         write_file(test_ec, ectxt)
-        self.test_toy_build(ec_file=test_ec, raise_error=True)
+        self.test_toy_build(ec_file=test_ec, extra_args=['--disable-lib64-lib-symlink'], raise_error=True)
 
     def test_toy_build_enhanced_sanity_check(self):
         """Test enhancing of sanity check."""
